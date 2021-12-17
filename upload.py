@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 from decouple import config
-from .login import login
+from .email_login import login
 from .database import db_uploader, get_mongodb
 
 
