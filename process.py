@@ -7,12 +7,15 @@ import requests
 from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
+from email_login import email_login
 import os
 
 
 
-def process(data, session_id):
+def process(data):
     mongo_db = get_mongodb()
+    sender_email, email_server = email_login()
+    session_id = data["session_id"]
 
     document = mongo_db.find({"_id": session_id}).limit(1)
     certificate, sheet = document["certificate"], document["sheet"]
@@ -25,7 +28,7 @@ def process(data, session_id):
 
     for person in sheet:
         created_certificate = create_certificate(person["name"], certificate, location, font)
-        send_certificate(created_certificate)
+        send_certificate(person["name"], person["email"], created_certificate, email_server, data["email"], sender_email)
 
 
 
@@ -48,22 +51,20 @@ def read_sheet(sheet):
 
 
 
-def send_certificate(name, email, certificate, server, username="autocertify"):
-    sender = username + '@gmail.com'
-
+def send_certificate(email, certificate, server, email_data, sender_email):
     msg = MIMEMultipart()
-    msg['Subject'] = "Congratulations, you earned a certificate!"
-    msg['From'] = username + '@gmail.com'
+    msg['Subject'] = email_data["subject"]
+    msg['From'] = sender_email
     msg['To'] = email
 
     msg.preamble = 'Multipart massage.\n'
 
-    body = f"Hello {name},\nPlease find your certificate below.\n\nCongratulations!\n-AutoCertify"
+    body = email_data["body"]
     part = MIMEText(body)
     msg.attach(part)
 
     part = MIMEApplication(certificate)
-    part.add_header('Content-Disposition', 'attachment', filename=f"{name} - certificate.jpg")
+    part.add_header('Content-Disposition', 'attachment', filename=f"certificate.jpg")
     msg.attach(part)
 
     server.sendmail(msg['From'], msg['To'], msg.as_string())

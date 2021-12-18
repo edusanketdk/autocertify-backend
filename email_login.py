@@ -9,4 +9,4 @@ def email_login():
     server.starttls()
     server.login(email, password)
     
-    return server
+    return (email, server)

@@ -5,15 +5,20 @@ import cloudinary.api
 from pymongo import MongoClient
 from decouple import config
 
-
-def db_uploader():
-    cloudinary.config( 
+cloudinary.config( 
         cloud_name = config("CLOUD_NAME"), 
         api_key = config("API_KEY"), 
         api_secret = config("API_SECRET"),
         secure = True,
-    )
+)
+
+
+def db_uploader():
     return cloudinary.uploader.upload
+
+
+def db_deleter():
+    return cloudinary.uploader.destroy
 
 
 def get_mongodb():
