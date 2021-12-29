@@ -1,1 +1,1 @@
-web: gunicorn autocertify.api:wsgi
+web: gunicorn autocertify.api.wsgi
