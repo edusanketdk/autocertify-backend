@@ -1,6 +1,6 @@
 from PIL import Image, ImageFont, ImageDraw
 import pandas as pd
-from .database import get_mongodb
+from database import get_mongodb
 from urllib.request import urlopen
 from io import BytesIO
 import requests

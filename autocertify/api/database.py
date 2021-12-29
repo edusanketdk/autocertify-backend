@@ -13,11 +13,11 @@ cloudinary.config(
 )
 
 
-def db_uploader():
+def get_db_uploader():
     return cloudinary.uploader.upload
 
 
-def db_deleter():
+def get_db_deleter():
     return cloudinary.uploader.destroy
 
 
