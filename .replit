@@ -1,2 +1,2 @@
 language = "python3"
-run = "python3 autocertify/api/wsgi.py"
+run = "python3 api/wsgi.py"
