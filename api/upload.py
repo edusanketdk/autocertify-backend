@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-from api.database import get_db_uploader, get_mongodb
+from database import get_db_uploader, get_mongodb
 
 def create_app():
 	db_uploader = get_db_uploader()

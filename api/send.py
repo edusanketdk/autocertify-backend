@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-from api.process import process
+from process import process
 
 
 def create_app():

@@ -2,10 +2,10 @@ from werkzeug.middleware.dispatcher import DispatcherMiddleware
 from werkzeug.serving import run_simple
 
 
-from api.frontend import create_app as frontend
-from api.upload import create_app as upload
-from api.send import create_app as send
-from api.clean import create_app as clean
+from frontend import create_app as frontend
+from upload import create_app as upload
+from send import create_app as send
+from clean import create_app as clean
 
 frontend = frontend()
 upload = upload()
