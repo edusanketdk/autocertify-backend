@@ -4,8 +4,9 @@ from database import get_mongodb, get_db_deleter
 
 def create_app():
 	app = Flask(__name__)
+	print('app_name = {}'.format(app))
 
-	@app.route('/clean/', methods=['GET', 'POST'])
+	@app.route('/', methods=['GET', 'POST'])
 	def clean():
 		session_id = request.json["session_id"]
 		mongo_db = get_mongodb()
