@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 from database import get_mongodb, get_db_deleter
+from bson import ObjectId
 
 
 def create_app():
@@ -11,13 +12,12 @@ def create_app():
 		session_id = request.json["session_id"]
 		mongo_db = get_mongodb()
 
-		mongo_db.data.delete_one({"_id": session_id})
+		mongo_db.data.delete_one({"_id": ObjectId(session_id)})
 
 		db_deleter = get_db_deleter()
-		db_deleter(f"data/{session_id}/certificate")
-		db_deleter(f"data/{session_id}/sheet")
+		db_deleter(f"data/{session_id}")
 		
-		return jsonify({})
+		return jsonify({"status": "cleaned the session data"})
 
 	return app
 

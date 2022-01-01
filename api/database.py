@@ -18,7 +18,7 @@ def get_db_uploader():
 
 
 def get_db_deleter():
-    return cloudinary.uploader.destroy
+    return cloudinary.api.delete_resources
 
 
 def get_mongodb():
