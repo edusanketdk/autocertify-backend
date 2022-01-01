@@ -16,9 +16,11 @@ cloudinary.config(
 def get_db_uploader():
     return cloudinary.uploader.upload
 
-
-def get_db_deleter():
+def get_db_resource_deleter():
     return cloudinary.api.delete_resources
+
+def get_db_folder_deleter():
+    return cloudinary.api.delete_folder
 
 
 def get_mongodb():
