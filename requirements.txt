@@ -114,3 +114,4 @@ yapf==0.31.0
 yarg==0.1.9
 yarl==1.6.3
 zipp==3.4.1
+openpyxl==3.0.9

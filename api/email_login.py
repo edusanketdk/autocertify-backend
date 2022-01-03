@@ -3,7 +3,7 @@ from decouple import config
 
 
 def email_login():
-    email, password = config(EMAILID), config(PASSWORD)
+    email, password = config("EMAILID"), config("PASSWORD")
     
     server = smtplib.SMTP('smtp.gmail.com:587')
     server.starttls()

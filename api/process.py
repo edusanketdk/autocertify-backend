@@ -9,6 +9,7 @@ from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
 from email_login import email_login
 import os
+from bson import ObjectId
 
 
 
@@ -17,7 +18,7 @@ def process(data):
     sender_email, email_server = email_login()
     session_id = data["session_id"]
 
-    document = mongo_db.find({"_id": session_id}).limit(1)
+    document = mongo_db.data.find_one({"_id": ObjectId(session_id)})
     certificate, sheet = document["certificate"], document["sheet"]
 
     certificate = Image.open(urlopen(certificate))
@@ -26,23 +27,27 @@ def process(data):
     location = data["location"]
     font = ImageFont.truetype(BytesIO(requests.get(data["font"]["family"]).content), data["font"]["size"])
 
-    for person in sheet:
+    for i, person in sheet.iterrows():
         created_certificate = create_certificate(person["name"], certificate, location, font)
-        send_certificate(person["name"], person["email"], created_certificate, email_server, data["email"], sender_email)
+        send_certificate(person["email"], created_certificate, email_server, data["email"], sender_email)
 
 
 
 def create_certificate(name, img, location, font):
     draw = ImageDraw.Draw(img)
 
-    W, H = location
+    W, H = location["width"], location["height"]
     w, h = draw.textsize(str(name), font=font)
     draw.text(((W - w) / 2, (H - h) / 2), name, (0, 0, 0), font=font)
 
     rgb = Image.new('RGB', img.size)
     rgb.paste(img)
+	
+    img_io = BytesIO()
+    rgb.save(img_io, 'JPEG', quality=70)
+    img_io.seek(0)
 
-    return rgb.tobytes()
+    return img_io
 
 
 
@@ -63,7 +68,7 @@ def send_certificate(email, certificate, server, email_data, sender_email):
     part = MIMEText(body)
     msg.attach(part)
 
-    part = MIMEApplication(certificate)
+    part = MIMEApplication(certificate.read())
     part.add_header('Content-Disposition', 'attachment', filename=f"certificate.jpg")
     msg.attach(part)
 
