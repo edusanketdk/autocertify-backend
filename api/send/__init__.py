@@ -10,6 +10,8 @@ def create_app():
 	def send():
 		data = request.json
 		process(data)
-		return jsonify({"response": "sent"})
+		response = jsonify({"response": "sent"})
+		response.headers.add('Access-Control-Allow-Origin', '*')
+		return response
 
 	return app

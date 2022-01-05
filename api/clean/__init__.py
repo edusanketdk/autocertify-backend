@@ -9,6 +9,7 @@ def create_app():
 
 	@app.route('/', methods=['GET', 'POST'])
 	def clean():
+		
 		session_id = request.json["session_id"]
 		mongo_db = get_mongodb()
 
@@ -19,7 +20,9 @@ def create_app():
 		db_resource_deleter(f"data/{session_id}/sheet", resource_type="raw")
 		db_folder_deleter(f"data/{session_id}")
 		
-		return jsonify({"status": "cleaned the session data"})
+		response =  jsonify({"status": "cleaned the session data"})
+		response.headers.add('Access-Control-Allow-Origin', '*')
+		return response
 
 	return app
 

@@ -26,9 +26,13 @@ def create_app():
 			}
 		})
 
-		return jsonify({
+		response = jsonify({
 			"certificate_url": certificate_response["secure_url"],
 			"session_id": str(session_id)
 		})
+		response.headers.add('Access-Control-Allow-Origin', '*')
+		return response
+		
+
 
 	return app
