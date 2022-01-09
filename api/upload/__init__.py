@@ -8,10 +8,11 @@ def create_app():
 
 	app = Flask(__name__)
 	app.config['CORS_HEADERS'] = 'Content-Type'
-	CORS(app, resources={r"/foo": {"origins": "http://localhost:3000"}})
+	CORS(app, resources={r"/foo": {"origins": "*"}})
 	
 
 	@app.route('/', methods=['POST'])
+	@cross_origin(origin='localhost', headers=['Content-Type', 'Authorization'])
 	def upload():
 		certificate, sheet = request.files['certificate'], request.files['sheet']
 		session_id = mongo_db.data.insert_one({}).inserted_id
