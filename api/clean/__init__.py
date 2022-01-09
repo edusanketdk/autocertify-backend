@@ -12,7 +12,6 @@ def create_app():
 	
 
 	@app.route('/', methods=['POST'])
-	@cross_origin(origin='localhost', headers=['Content-Type', 'Authorization'])
 	def clean():
 		
 		session_id = request.json["session_id"]

@@ -12,7 +12,6 @@ def create_app():
 	
 
 	@app.route('/', methods=['POST'])
-	@cross_origin(origin='localhost', headers=['Content-Type', 'Authorization'])
 	def upload():
 		certificate, sheet = request.files['certificate'], request.files['sheet']
 		session_id = mongo_db.data.insert_one({}).inserted_id

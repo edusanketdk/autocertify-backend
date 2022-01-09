@@ -10,7 +10,6 @@ def create_app():
 	
 
 	@app.route('/', methods=['POST'])
-	@cross_origin(origin='localhost', headers=['Content-Type', 'Authorization'])
 	def send():
 		data = request.json
 		process(data)
