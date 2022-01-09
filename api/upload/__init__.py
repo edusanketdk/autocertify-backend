@@ -1,18 +1,18 @@
 from flask import Flask, jsonify, request, logging
 from database import get_db_uploader, get_mongodb
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 
 def create_app():
 	db_uploader = get_db_uploader()
 	mongo_db = get_mongodb()
 
 	app = Flask(__name__)
-	print('app_name = {}'.format(app))
+	app.config['CORS_HEADERS'] = 'Content-Type'
 	CORS(app, resources={r"/*": {"origins": "*"}})
-
-
+	
 
 	@app.route('/', methods=['POST'])
+	@cross_origin(origin='localhost', headers=['Content-Type', 'Authorization'])
 	def upload():
 		certificate, sheet = request.files['certificate'], request.files['sheet']
 		session_id = mongo_db.data.insert_one({}).inserted_id

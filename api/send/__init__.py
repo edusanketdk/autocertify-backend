@@ -1,14 +1,16 @@
 from flask import Flask, jsonify, request, logging
 from process import process
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 
 
 def create_app():
 	app = Flask(__name__)
-	print('app_name = {}'.format(app))
+	app.config['CORS_HEADERS'] = 'Content-Type'
 	CORS(app, resources={r"/*": {"origins": "*"}})
+	
 
 	@app.route('/', methods=['POST'])
+	@cross_origin(origin='localhost', headers=['Content-Type', 'Authorization'])
 	def send():
 		data = request.json
 		process(data)

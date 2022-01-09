@@ -1,16 +1,18 @@
 from flask import Flask, jsonify, request, logging
 from database import get_mongodb, get_db_resource_deleter, get_db_folder_deleter
 from bson import ObjectId
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 
 
 
 def create_app():
 	app = Flask(__name__)
-	print('app_name = {}'.format(app))
+	app.config['CORS_HEADERS'] = 'Content-Type'
 	CORS(app, resources={r"/*": {"origins": "*"}})
+	
 
 	@app.route('/', methods=['POST'])
+	@cross_origin(origin='localhost', headers=['Content-Type', 'Authorization'])
 	def clean():
 		
 		session_id = request.json["session_id"]
