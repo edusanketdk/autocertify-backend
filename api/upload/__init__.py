@@ -1,10 +1,12 @@
 from flask import Flask, jsonify, request
 from database import get_db_uploader, get_mongodb
+from flask_cors import CORS
 
 def create_app():
 	db_uploader = get_db_uploader()
 	mongo_db = get_mongodb()
 	app = Flask(__name__)
+	CORS(app)
 
 	print('app_name = {}'.format(app))
 
@@ -30,7 +32,6 @@ def create_app():
 			"certificate_url": certificate_response["secure_url"],
 			"session_id": str(session_id)
 		})
-		response.headers.add('Access-Control-Allow-Origin', '*')
 		return response
 		
 
