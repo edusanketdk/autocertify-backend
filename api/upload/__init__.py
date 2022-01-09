@@ -1,17 +1,18 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, logging
 from database import get_db_uploader, get_mongodb
-from flask_cors import cross_origin
+from flask_cors import CORS
 
 def create_app():
 	db_uploader = get_db_uploader()
 	mongo_db = get_mongodb()
-	app = Flask(__name__)
 
+	app = Flask(__name__)
 	print('app_name = {}'.format(app))
+	CORS(app, resources=r'/*')
+
 
 
 	@app.route('/', methods=['POST'])
-	@cross_origin()
 	def upload():
 		certificate, sheet = request.files['certificate'], request.files['sheet']
 		session_id = mongo_db.data.insert_one({}).inserted_id
@@ -34,5 +35,10 @@ def create_app():
 		})
 		response.headers.add('Access-Control-Allow-Origin', '*')
 		return response
+
+	@app.errorhandler(500)
+	def server_error(e):
+		logging.exception('An error occurred during a request. %s', e)
+		return "An internal error occured", 500
 
 	return app
