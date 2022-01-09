@@ -8,7 +8,7 @@ def create_app():
 
 	app = Flask(__name__)
 	print('app_name = {}'.format(app))
-	CORS(app, resources=r'/*')
+	CORS(app, resources={r"/*": {"origins": "*"}})
 
 
 
