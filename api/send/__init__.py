@@ -13,6 +13,7 @@ def create_app():
 		data = request.json
 		process(data)
 		response = jsonify({"response": "sent"})
+		response.headers.add('Access-Control-Allow-Origin', '*')
 		return response
 
 	return app

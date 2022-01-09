@@ -24,6 +24,7 @@ def create_app():
 		db_folder_deleter(f"data/{session_id}")
 		
 		response =  jsonify({"status": "cleaned the session data"})
+		response.headers.add('Access-Control-Allow-Origin', '*')
 		return response
 
 	return app
