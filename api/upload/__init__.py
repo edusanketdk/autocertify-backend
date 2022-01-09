@@ -8,7 +8,7 @@ def create_app():
 
 	app = Flask(__name__)
 	app.config['CORS_HEADERS'] = 'Content-Type'
-	CORS(app, resources={r"/*": {"origins": "*"}})
+	CORS(app, resources={r"/foo": {"origins": "http://localhost:3000"}})
 	
 
 	@app.route('/', methods=['POST'])
