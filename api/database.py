@@ -1,9 +1,8 @@
-import cloudinary
-import cloudinary.uploader
-import cloudinary.api
-
+import cloudinary, cloudinary.api, cloudinary.uploader
 from pymongo import MongoClient
 from decouple import config
+
+
 
 cloudinary.config( 
         cloud_name = config("CLOUD_NAME"), 
@@ -13,11 +12,14 @@ cloudinary.config(
 )
 
 
+
 def get_db_uploader():
     return cloudinary.uploader.upload
 
+
 def get_db_resource_deleter():
     return cloudinary.api.delete_resources
+
 
 def get_db_folder_deleter():
     return cloudinary.api.delete_folder

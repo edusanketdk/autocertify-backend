@@ -1,15 +1,12 @@
 from PIL import Image, ImageFont, ImageDraw
-import pandas as pd
-from database import get_mongodb
-from urllib.request import urlopen
-from io import BytesIO
-import requests
-from email.mime.text import MIMEText
-from email.mime.application import MIMEApplication
-from email.mime.multipart import MIMEMultipart
+from email.message import EmailMessage
 from email_login import email_login
-import os
+from urllib.request import urlopen
+from database import get_mongodb
 from bson import ObjectId
+from io import BytesIO
+import pandas as pd
+import requests
 
 
 
@@ -57,19 +54,22 @@ def read_sheet(sheet):
 
 
 def send_certificate(email, certificate, server, email_data, sender_email):
-    msg = MIMEMultipart()
-    msg['Subject'] = email_data["subject"]
-    msg['From'] = sender_email
-    msg['To'] = email
+	msg = EmailMessage()
 
-    msg.preamble = 'Multipart massage.\n'
+	msg['From'] = sender_email
+	msg['To'] = email
+	msg['Subject'] = email_data["subject"]
 
-    body = email_data["body"]
-    part = MIMEText(body)
-    msg.attach(part)
+	body = email_data["body"]
+	msg.set_content(body)
+	mime_type, mime_subtype = "image", "jpeg"
 
-    part = MIMEApplication(certificate.read())
-    part.add_header('Content-Disposition', 'attachment', filename=f"certificate.jpg")
-    msg.attach(part)
+	msg.add_attachment(
+		certificate.read(),
+		maintype=mime_type,
+		subtype=mime_subtype,
+		filename='certificate.jpg',
+		)
+	
+	server.sendmail(msg['From'], msg['To'], msg.as_string())
 
-    server.sendmail(msg['From'], msg['To'], msg.as_string())
