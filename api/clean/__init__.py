@@ -31,7 +31,7 @@ def create_app():
 		# to delete or keep current session record
 		stage, time = mongo_db.data.find_one({'_id': session_id}, {'stage': 1, 'time': 1, "_id": False})
 
-		if stage == 'send' and (datetime.now()-time).days < 1:
+		if stage == 'send':
 			response =  jsonify({"status": "emails are being sent"})
 		else:
 			mongo_db.data.delete_one({"_id": ObjectId(session_id)})

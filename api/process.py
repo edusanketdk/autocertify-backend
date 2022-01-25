@@ -35,7 +35,8 @@ def create_certificate(name, img, location, font):
 
     W, H = location["width"], location["height"]
     w, h = draw.textsize(str(name), font=font)
-    draw.text(((W - w) / 2, (H - h) / 2), name, (0, 0, 0), font=font)
+    #draw.text(((W - w) / 2, (H - h) / 2), name, (0, 0, 0), font=font)
+    draw.text((W, H), name, (0, 0, 0), font=font)
 
     rgb = Image.new('RGB', img.size)
     rgb.paste(img)
