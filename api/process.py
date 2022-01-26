@@ -4,6 +4,7 @@ from email_login import email_login
 from urllib.request import urlopen
 from database import get_mongodb
 from bson import ObjectId
+from copy import deepcopy
 from io import BytesIO
 import pandas as pd
 import requests
@@ -25,7 +26,7 @@ def process(data):
     font = ImageFont.truetype(BytesIO(requests.get(data["font"]["family"]).content), data["font"]["size"])
 
     for i, person in sheet.iterrows():
-        created_certificate = create_certificate(person["name"], certificate, location, font)
+        created_certificate = create_certificate(person["name"], deepcopy(certificate), location, font)
         send_certificate(person["email"], created_certificate, email_server, data["email"], sender_email)
 
 
@@ -35,8 +36,7 @@ def create_certificate(name, img, location, font):
 
     W, H = location["width"], location["height"]
     w, h = draw.textsize(str(name), font=font)
-    #draw.text(((W - w) / 2, (H - h) / 2), name, (0, 0, 0), font=font)
-    draw.text((W, H), name, (0, 0, 0), font=font)
+    draw.text((W - w/2, H - h/2), name, (0, 0, 0), font=font)
 
     rgb = Image.new('RGB', img.size)
     rgb.paste(img)
