@@ -33,6 +33,7 @@ def process(data):
 
 def create_certificate(name, img, location, font):
     draw = ImageDraw.Draw(img)
+    name = name.title()
 
     W, H = location["width"], location["height"]
     w, h = draw.textsize(str(name), font=font)
@@ -50,7 +51,9 @@ def create_certificate(name, img, location, font):
 
 
 def read_sheet(sheet):
-    return pd.read_excel(sheet)
+    sheet = pd.read_excel(sheet)
+    sheet.columns = [i.lower() for i in sheet.columns]
+    return sheet
 
 
 
