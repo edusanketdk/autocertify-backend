@@ -99,6 +99,7 @@ venv.bak/
 .spyderproject
 .spyproject
 
+# A
 # Rope project settings
 .ropeproject
 
@@ -121,3 +122,6 @@ sheet.xlsx
 poetry.lock
 pyproject.toml
 .breakpoints
+.gitattributes
+.gitignore
+
