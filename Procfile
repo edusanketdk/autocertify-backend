@@ -1,2 +1,2 @@
 web: gunicorn api.wsgi
-worker: python api.worker
+worker: python api/worker.py
