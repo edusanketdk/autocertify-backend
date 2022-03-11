@@ -116,3 +116,4 @@ yarl==1.6.3
 zipp==3.4.1
 openpyxl==3.0.9
 flask-cors==3.0.10
+rq==1.10.1

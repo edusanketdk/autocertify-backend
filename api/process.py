@@ -29,6 +29,8 @@ def process(data):
         created_certificate = create_certificate(person["name"], deepcopy(certificate), location, font)
         send_certificate(person["email"], created_certificate, email_server, data["email"], sender_email)
 
+	mark_stage(data['session_id'], 'completed')
+
 
 
 def create_certificate(name, img, location, font):
