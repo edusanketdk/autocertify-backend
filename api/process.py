@@ -3,6 +3,7 @@ from email.message import EmailMessage
 from email_login import email_login
 from urllib.request import urlopen
 from database import get_mongodb
+from mark_stage import mark_stage
 from bson import ObjectId
 from copy import deepcopy
 from io import BytesIO
@@ -29,7 +30,7 @@ def process(data):
         created_certificate = create_certificate(person["name"], deepcopy(certificate), location, font)
         send_certificate(person["email"], created_certificate, email_server, data["email"], sender_email)
 
-	mark_stage(data['session_id'], 'completed')
+    mark_stage(data['session_id'], 'completed')
 
 
 
