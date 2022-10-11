@@ -3,8 +3,6 @@ from create_report import create_report
 from mark_stage import mark_stage
 from flask_cors import CORS
 from process import process
-from worker import conn
-from rq import Queue
 import logging
 
 
@@ -18,12 +16,12 @@ def create_app():
 	@app.route('/', methods=['POST'])
 	def send():
 		data = request.json
-		q = Queue(connection=conn)
 
 		mark_stage(data['session_id'], 'send')
-		q.enqueue(process, data)
+		process(data)
+		mark_stage(data['session_id'], 'completed')
 
-		q.enqueue(create_report, data['user_email'])
+		create_report(data['user_email'])
 
 		response = jsonify({"response": "sent"})
 		response.headers.add('Access-Control-Allow-Origin', '*')
