@@ -73,7 +73,6 @@ pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycparser==2.20
 pyflakes==2.1.1
-pygame==2.0.1
 pylev==1.4.0
 pymongo==4.0.1
 pymongo[srv]
